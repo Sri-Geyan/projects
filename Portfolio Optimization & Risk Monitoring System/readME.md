@@ -117,10 +117,6 @@ portfolio_system/
 ## ▶️ How to Run Locally
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/indian-portfolio-optimization.git
-cd indian-portfolio-optimization
-
 # Install dependencies
 pip install -r requirements.txt
 
