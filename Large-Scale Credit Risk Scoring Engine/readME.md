@@ -183,16 +183,19 @@ In a **production environment**, this same pipeline would:
 ## 📂 Project Structure
 
 ```
-credit-risk-engine/
-│
-├── notebooks/
-│   └── credit_risk_scoring.ipynb    # Main Databricks notebook
-│
-├── docs/
-│   └── architecture.md               # Detailed architecture docs
-│
-├── README.md                          # This file
-└── requirements.txt                   # Python dependencies (if any)
+credit-risk-spark-databricks/
+├── cell_01_spark_check.py
+├── cell_02_problem_statement.md
+├── cell_03_generate_data.py
+├── cell_04_temp_views.py
+├── cell_05_join_data.py
+├── cell_06_feature_engineering.py
+├── cell_07_vector_assembler.py
+├── cell_08_train_model.py
+├── cell_09_evaluate.py
+├── cell_10_risk_scoring.py
+└── cell_11_final_output.py
+
 ```
 
 ---
@@ -263,8 +266,8 @@ Feel free to check the [issues page](https://github.com/yourusername/credit-risk
 Financial Data Science / Risk Analytics  
 Execution: Databricks Serverless (Apache Spark)
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/yourprofile)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/yourusername)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](www.linkedin.com/in/sri-geyan-558769252)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/Sri-Geyan)
 
 ---
 
