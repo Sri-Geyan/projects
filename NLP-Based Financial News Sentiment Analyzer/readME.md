@@ -253,7 +253,8 @@ This project documents **real production issues and resolutions**, including:
 
 <img width="812" height="791" alt="Output" src="https://github.com/user-attachments/assets/364921b6-53c5-409c-84cf-3faff1b87806" />
 
-<img width="1470" height="956" alt="Output" src="https://github.com/user-attachments/assets/5349c45d-3cd7-4c7a-afa7-20f1c0ad4f88" />
+<img width="768" height="794" alt="Output" src="https://github.com/user-attachments/assets/3cd50d68-2858-46ab-80a7-5e4f0bc90d00" />
+
 
 
 ```
