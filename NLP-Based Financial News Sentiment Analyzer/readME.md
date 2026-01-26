@@ -249,6 +249,13 @@ This project documents **real production issues and resolutions**, including:
 
 ## 📊 Sample Output
 
+<img width="464" height="166" alt="Output" src="https://github.com/user-attachments/assets/c87c9add-a71c-40a3-b4d2-25447f643955" />
+
+<img width="812" height="791" alt="Output" src="https://github.com/user-attachments/assets/364921b6-53c5-409c-84cf-3faff1b87806" />
+
+<img width="1470" height="956" alt="Output" src="https://github.com/user-attachments/assets/5349c45d-3cd7-4c7a-afa7-20f1c0ad4f88" />
+
+
 ```
 === Financial News Sentiment Analysis ===
 
