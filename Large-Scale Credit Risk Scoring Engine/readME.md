@@ -183,7 +183,7 @@ In a **production environment**, this same pipeline would:
 ## 📂 Project Structure
 
 ```
-credit-risk-spark-databricks/
+large-scale-credit-risk-scoring-engine/
 ├── cell_01_spark_check.py
 ├── cell_02_problem_statement.md
 ├── cell_03_generate_data.py
