@@ -6,12 +6,6 @@ This system helps investors **optimize asset allocation**, **control sector expo
 
 ---
 
-## 🔗 Live Demo
-
-👉 https://your-streamlit-app.streamlit.app
-
----
-
 ## 🎯 Problem Statement
 
 Retail and professional investors often struggle to:
@@ -178,8 +172,3 @@ Data Science & Quantitative Finance Enthusiast
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
