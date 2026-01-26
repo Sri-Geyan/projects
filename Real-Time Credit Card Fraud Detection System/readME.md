@@ -235,6 +235,7 @@ streamlit run dashboard/app.py
 ```
 http://localhost:8501
 ```
+<img width="1377" height="782" alt="Output" src="https://github.com/user-attachments/assets/4f998e8c-5847-4d85-9dee-44335d08b995" />
 
 ---
 
@@ -387,16 +388,11 @@ It's **portfolio-ready** and **interview-strong**.
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!  
-Feel free to check the [issues page](https://github.com/yourusername/fraud-detection-kafka/issues).
+Feel free to check the [issues page](https://github.com/Sri-Geyan/projects/issues).
 
 ---
 
