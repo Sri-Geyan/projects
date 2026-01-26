@@ -130,6 +130,12 @@ streamlit run app.py
 
 *Exact values depend on selected stocks and historical time period.*
 
+![Output](https://github.com/user-attachments/assets/9d97c5f3-a51e-43cd-ba51-309158e3fe50)
+
+![Output](https://github.com/user-attachments/assets/ff9cd522-2ecc-46a7-9019-2d9323444814)
+
+
+
 ---
 
 ## 🧪 Example Use Cases
