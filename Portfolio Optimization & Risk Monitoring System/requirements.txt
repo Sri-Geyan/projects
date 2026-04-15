@@ -1,0 +1,8 @@
+streamlit==1.40.1
+numpy
+pandas
+yfinance
+scipy
+matplotlib
+plotly
+pytest
