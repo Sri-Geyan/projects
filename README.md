@@ -61,19 +61,25 @@ I'm especially interested in how banks, fintechs, and trading systems solve prob
 
 ## 📂 Featured Projects
 
-### 🔴 [Real-Time Credit Card Fraud Detection](https://github.com/yourusername/fraud-detection-kafka)
+### ⚡ [Simplified Async-FastAPI & React Industrial Binance Futures Terminal](https://github.com/Sri-Geyan/projects/tree/main/Simplified%20Async-FastAPI%20%26%20React%20Industrial%20Binance%20Futures%20Terminal)
+- Production-grade Binance Futures (USDT-M) trading terminal
+- High-performance Asynchronous FastAPI backend
+- React 19 + Tailwind CSS brutalist dashboard
+- Secure HMAC-SHA256 authentication and structured logging
+
+### 🔴 [Real-Time Credit Card Fraud Detection](https://github.com/Sri-Geyan/projects/tree/main/Real-Time%20Credit%20Card%20Fraud%20Detection%20System)
 - Kafka-based streaming architecture
 - Sliding window feature engineering
 - Isolation Forest & XGBoost
 - Designed for low-latency detection
 
-### 🏦 [Credit Risk Scoring Engine (PySpark)](https://github.com/yourusername/credit-risk-engine)
+### 🏦 [Credit Risk Scoring Engine (PySpark)](https://github.com/Sri-Geyan/projects/tree/main/Large-Scale%20Credit%20Risk%20Scoring%20Engine)
 - Large-scale borrower data processing
 - Risk score generation
 - Regulatory-style evaluation metrics
 - Bank/NBFC-ready architecture
 
-### 📈 [Indian Portfolio Optimization System](https://github.com/yourusername/indian-portfolio-optimization)
+### 📈 [Portfolio Optimization & Risk Monitoring](https://github.com/Sri-Geyan/projects/tree/main/Portfolio%20Optimization%20%26%20Risk%20Monitoring%20System)
 - NSE-focused equity analysis
 - Mean-variance optimization
 - Risk monitoring dashboard
@@ -94,9 +100,10 @@ I'm especially interested in how banks, fintechs, and trading systems solve prob
 
 ## 📊 GitHub Stats
 
-![Sri Geyan's GitHub Stats](https://github-readme-stats.vercel.app/api?username=yourusername&show_icons=true&theme=radical)
+![Sri Geyan's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Sri-Geyan&show_icons=true&theme=radical)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=yourusername&layout=compact&theme=radical)
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Sri-Geyan&layout=compact&theme=radical)
+
 
 ---
 
