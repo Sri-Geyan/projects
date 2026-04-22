@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+*.log
+log.txt
+log_clean.txt
+node_modules/
+dist/
+.DS_Store
+.vscode/
+trading_bot/ui/node_modules/
+trading_bot/ui/dist/
