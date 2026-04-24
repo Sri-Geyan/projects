@@ -27,17 +27,20 @@ class PandasRiskScoringPipeline:
         
     def train_model(self, features_df):
         features = ['dti_ratio', 'credit_utilization', 'delinquency_flag', 'credit_score']
-        
         X = features_df[features].fillna(0)
         y = features_df['default']
-        
         model = LogisticRegression(max_iter=100)
         model.fit(X, y)
-        
-        # Predict probabilities
         features_df['probability'] = model.predict_proba(X)[:, 1]
-        
         return features_df, model
+
+    def cross_validate_model(self, features_df):
+        from sklearn.model_selection import cross_val_score
+        features = ['dti_ratio', 'credit_utilization', 'delinquency_flag', 'credit_score']
+        X = features_df[features].fillna(0)
+        y = features_df['default']
+        scores = cross_val_score(LogisticRegression(), X, y, cv=5, scoring='roc_auc')
+        return scores.mean()
 
     def evaluate_model(self, predictions):
         y_true = predictions['default']

@@ -70,17 +70,21 @@ if run_button:
         with st.spinner("Generating data via Pandas..."):
             loan_df, bureau_df, txn_df = generate_pandas_data(N)
             
-        with st.spinner("Running Pandas Pipeline..."):
+        with st.spinner("Running Pandas Pipeline & 5-Fold CV..."):
             pipeline = PandasRiskScoringPipeline()
             base_df = pipeline.join_data(loan_df, bureau_df, txn_df)
             features_df = pipeline.feature_engineering(base_df)
             predictions, model = pipeline.train_model(features_df)
             auc = pipeline.evaluate_model(predictions)
+            
+            # 5-Fold CV
+            cv_auc = pipeline.cross_validate_model(features_df)
+            
             scored_df = pipeline.calculate_risk_scores(predictions)
             display_df = scored_df.head(100)
             
         duration = time.time() - start_time
-        st.success(f"Pipeline executed successfully in Pandas! Duration: {duration:.2f}s | AUC-ROC: **{auc:.4f}**")
+        st.success(f"Pipeline executed! AUC: **{auc:.4f}** | 5-Fold Mean AUC: **{cv_auc:.4f}**")
 
     # Shared UI outputs
     col1, col2, col3 = st.columns(3)
