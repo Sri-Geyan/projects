@@ -67,8 +67,18 @@ with st.spinner("Fetching Market Data & Optimizing Portfolio..."):
     cvar_95 = conditional_var(portfolio_returns)
     mdd = max_drawdown((1 + portfolio_returns).cumprod())
 
-# ... (Metrics display remains same)
-
+    # Metrics
+    st.subheader("📊 Portfolio Metrics")
+    col1, col2, col3, col4, col5 = st.columns(5)
+    col1.metric("Expected Return", f"{annual_return*100:.2f}%")
+    col2.metric("Annual Volatility", f"{annual_vol*100:.2f}%")
+    col3.metric("VaR (95%)", f"{var_95*100:.2f}%")
+    col4.metric("CVaR (95%)", f"{cvar_95*100:.2f}%")
+    col5.metric("Max Drawdown", f"{mdd*100:.2f}%")
+    
+    st.subheader("⚖️ Optimized Weights")
+    weight_fig = px.pie(names=tickers, values=weights, hole=0.3)
+    st.plotly_chart(weight_fig, use_container_width=True)
 st.subheader("🔮 Monte Carlo Stress Test (10,000 Simulations)")
 st.info("Simulating future portfolio growth paths over 252 trading days. Showing 100 sample paths.")
 
@@ -77,4 +87,9 @@ with st.spinner("Running Monte Carlo..."):
     
     plot_samples = simulated[:, :100]
     
-    # ... (Plotting remains same)
+    fig = go.Figure()
+    for i in range(100):
+        fig.add_trace(go.Scatter(y=plot_samples[:, i], mode='lines', line=dict(color='rgba(0,100,255,0.1)'), showlegend=False))
+    
+    fig.update_layout(title="Monte Carlo Portfolio Growth Paths", xaxis_title="Days", yaxis_title="Portfolio Value")
+    st.plotly_chart(fig, use_container_width=True)

@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 from bot.client import BinanceClient
@@ -7,6 +8,14 @@ from bot.validators import validate_order_input
 from config import Config
 
 app = FastAPI(title="Binance Futures API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class OrderRequest(BaseModel):
     symbol: str
@@ -17,16 +26,16 @@ class OrderRequest(BaseModel):
     stop_price: Optional[float] = None
     callback_rate: Optional[float] = None
 
-@app.get("/health")
+@app.get("/api/health")
 def health_check():
     return {"status": "healthy"}
 
-@app.get("/balances")
+@app.get("/api/balances")
 async def get_balances():
     client = BinanceClient(Config.API_KEY, Config.API_SECRET, Config.IS_TESTNET)
     return await client.get_balance()
 
-@app.post("/order")
+@app.post("/api/order")
 async def place_order(order: OrderRequest):
     errors = validate_order_input(
         order.symbol, order.side, order.order_type, 

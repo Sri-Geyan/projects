@@ -3,6 +3,41 @@ from datetime import datetime
 import pandas as pd
 import streamlit as st
 from kafka import KafkaConsumer, KafkaProducer
+from kafka.errors import NoBrokersAvailable
+
+class MockKafkaConsumer:
+    def __init__(self, *args, **kwargs):
+        self.messages = []
+    def poll(self, timeout_ms=500):
+        # Return a fake message every few polls
+        if random.random() > 0.5:
+            fake_msg = type('obj', (object,), {
+                'value': {
+                    "transaction_id": random.randint(100000, 999999),
+                    "card_id": random.randint(1000, 9999),
+                    "amount": round(random.uniform(1.0, 5000.0), 2),
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "is_fraud": random.random() < 0.05,
+                    "fraud_score": random.random()
+                }
+            })
+            return { 'dummy_partition': [fake_msg] }
+        return {}
+    def append_mock_message(self, msg):
+        pass # Handle manual sends in the producer instead for this mock
+
+class MockKafkaProducer:
+    def __init__(self, *args, **kwargs):
+        pass
+    def send(self, topic, value):
+        # We can directly inject into session state to simulate the loopback
+        if "data" not in st.session_state:
+            st.session_state.data = []
+        value['is_fraud'] = value.get('amount', 0) > 10000 # dummy rule
+        value['fraud_score'] = 0.99 if value['is_fraud'] else 0.01
+        st.session_state.data.append(value)
+    def flush(self):
+        pass
 
 st.set_page_config(page_title="Fraud Detection Dashboard", layout="wide", page_icon="🚨")
 
@@ -21,19 +56,25 @@ st.markdown("Monitoring live transaction stream for fraudulent patterns using **
 # --- Kafka Setup ---
 @st.cache_resource
 def get_consumer():
-    return KafkaConsumer(
-        "fraud_predictions",
-        bootstrap_servers="localhost:9092",
-        value_deserializer=lambda x: json.loads(x.decode("utf-8")),
-        consumer_timeout_ms=500  # unblock every 0.5s to keep UI responsive
-    )
+    try:
+        return KafkaConsumer(
+            "fraud_predictions",
+            bootstrap_servers="localhost:9092",
+            value_deserializer=lambda x: json.loads(x.decode("utf-8")),
+            consumer_timeout_ms=500  # unblock every 0.5s to keep UI responsive
+        )
+    except NoBrokersAvailable:
+        return MockKafkaConsumer()
 
 @st.cache_resource
 def get_producer():
-    return KafkaProducer(
-        bootstrap_servers="localhost:9092",
-        value_serializer=lambda v: json.dumps(v).encode("utf-8")
-    )
+    try:
+        return KafkaProducer(
+            bootstrap_servers="localhost:9092",
+            value_serializer=lambda v: json.dumps(v).encode("utf-8")
+        )
+    except NoBrokersAvailable:
+        return MockKafkaProducer()
 
 consumer = get_consumer()
 producer = get_producer()
