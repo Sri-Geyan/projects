@@ -11,28 +11,61 @@ from simulation import monte_carlo_simulation
 # Premium CSS
 st.set_page_config(page_title="Indian Portfolio Optimizer", layout="wide", page_icon="🇮🇳")
 
+# Premium CSS Injection
+st.markdown("""
+<style>
+    .stApp { background: linear-gradient(135deg, #0A0F1A 0%, #111827 100%); }
+    [data-testid="stSidebar"] {
+        background: rgba(21, 26, 40, 0.6) !important;
+        backdrop-filter: blur(12px) !important;
+        border-right: 1px solid rgba(255,255,255,0.05);
+    }
+    .stMetric, .stDataFrame, div[data-testid="stForm"], div[data-testid="stExpander"] {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255,255,255,0.05) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .stMetric:hover, div[data-testid="stForm"]:hover, div[data-testid="stExpander"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 229, 255, 0.1);
+        border: 1px solid rgba(0, 229, 255, 0.3) !important;
+    }
+    h1, h2, h3 {
+        background: linear-gradient(90deg, #00E5FF, #0077FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800 !important;
+    }
+    .stButton>button {
+        background: linear-gradient(90deg, #00E5FF, #0077FF) !important;
+        color: #0A0F1A !important;
+        font-weight: bold !important;
+        border: none !important;
+        border-radius: 8px !important;
+        transition: all 0.3s ease;
+    }
+    .stButton>button:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.5) !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
 # ... (CSS remains same)
 
 st.markdown('<h1 class="gradient-text">🇮🇳 Indian Portfolio Optimization & Risk Monitoring System</h1>', unsafe_allow_html=True)
 
-INDIAN_STOCKS = [
-    "RELIANCE.NS", "TCS.NS", "INFY.NS", "HDFCBANK.NS", "ICICIBANK.NS", "ITC.NS", "LT.NS", "SBIN.NS",
-    "HINDUNILVR.NS", "AXISBANK.NS", "KOTAKBANK.NS", "BHARTIARTL.NS", "BAJFINANCE.NS", "ASIANPAINT.NS",
-    "MARUTI.NS", "HCLTECH.NS", "TITAN.NS", "SUNPHARMA.NS", "TATAMOTORS.NS", "ULTRACEMCO.NS",
-    "NTPC.NS", "POWERGRID.NS", "JSWSTEEL.NS", "M&M.NS", "ADANIENT.NS", "TATASTEEL.NS",
-    "BAJAJFINSV.NS", "INDUSINDBK.NS", "ADANIPORTS.NS", "GRASIM.NS", "NESTLEIND.NS", "ONGC.NS",
-    "TECHM.NS", "HINDALCO.NS", "BAJAJ-AUTO.NS", "COALINDIA.NS", "TATACONSUM.NS", "CIPLA.NS",
-    "APOLLOHOSP.NS", "DRREDDY.NS", "SBILIFE.NS", "BPCL.NS", "BRITANNIA.NS", "EICHERMOT.NS",
-    "DIVISLAB.NS", "HDFCLIFE.NS", "LTIM.NS", "UPL.NS", "WIPRO.NS", "HEROMOTOCO.NS"
-]
-
 with st.sidebar:
     st.header("⚙️ Configuration")
-    tickers = st.multiselect(
-        "Select NSE Stocks (Max 50)",
-        INDIAN_STOCKS,
-        default=["RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "ITC.NS", "MARUTI.NS"]
+    tickers_input = st.text_input(
+        "Enter Stock Tickers (comma-separated)",
+        ""
     )
+    tickers = [t.strip() for t in tickers_input.split(",") if t.strip()]
     
     strategy = st.radio(
         "Optimization Strategy",
