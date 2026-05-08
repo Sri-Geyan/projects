@@ -9,19 +9,6 @@ class MockKafkaConsumer:
     def __init__(self, *args, **kwargs):
         self.messages = []
     def poll(self, timeout_ms=500):
-        # Return a fake message every few polls
-        if random.random() > 0.5:
-            fake_msg = type('obj', (object,), {
-                'value': {
-                    "transaction_id": random.randint(100000, 999999),
-                    "card_id": random.randint(1000, 9999),
-                    "amount": round(random.uniform(1.0, 5000.0), 2),
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "is_fraud": random.random() < 0.05,
-                    "fraud_score": random.random()
-                }
-            })
-            return { 'dummy_partition': [fake_msg] }
         return {}
     def append_mock_message(self, msg):
         pass # Handle manual sends in the producer instead for this mock
@@ -40,6 +27,50 @@ class MockKafkaProducer:
         pass
 
 st.set_page_config(page_title="Fraud Detection Dashboard", layout="wide", page_icon="🚨")
+
+# Premium CSS Injection
+st.markdown("""
+<style>
+    .stApp { background: linear-gradient(135deg, #0A0F1A 0%, #111827 100%); }
+    [data-testid="stSidebar"] {
+        background: rgba(21, 26, 40, 0.6) !important;
+        backdrop-filter: blur(12px) !important;
+        border-right: 1px solid rgba(255,255,255,0.05);
+    }
+    .stMetric, .stDataFrame, div[data-testid="stForm"], div[data-testid="stExpander"] {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255,255,255,0.05) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .stMetric:hover, div[data-testid="stForm"]:hover, div[data-testid="stExpander"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 229, 255, 0.1);
+        border: 1px solid rgba(0, 229, 255, 0.3) !important;
+    }
+    h1, h2, h3 {
+        background: linear-gradient(90deg, #00E5FF, #0077FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800 !important;
+    }
+    .stButton>button {
+        background: linear-gradient(90deg, #00E5FF, #0077FF) !important;
+        color: #0A0F1A !important;
+        font-weight: bold !important;
+        border: none !important;
+        border-radius: 8px !important;
+        transition: all 0.3s ease;
+    }
+    .stButton>button:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.5) !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 
 # Custom CSS for aesthetics
 st.markdown("""
