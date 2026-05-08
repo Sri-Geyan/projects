@@ -36,6 +36,50 @@ st.set_page_config(
     layout="centered",
 )
 
+# Premium CSS Injection
+st.markdown("""
+<style>
+    .stApp { background: linear-gradient(135deg, #0A0F1A 0%, #111827 100%); }
+    [data-testid="stSidebar"] {
+        background: rgba(21, 26, 40, 0.6) !important;
+        backdrop-filter: blur(12px) !important;
+        border-right: 1px solid rgba(255,255,255,0.05);
+    }
+    .stMetric, .stDataFrame, div[data-testid="stForm"], div[data-testid="stExpander"] {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255,255,255,0.05) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .stMetric:hover, div[data-testid="stForm"]:hover, div[data-testid="stExpander"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 229, 255, 0.1);
+        border: 1px solid rgba(0, 229, 255, 0.3) !important;
+    }
+    h1, h2, h3 {
+        background: linear-gradient(90deg, #00E5FF, #0077FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800 !important;
+    }
+    .stButton>button {
+        background: linear-gradient(90deg, #00E5FF, #0077FF) !important;
+        color: #0A0F1A !important;
+        font-weight: bold !important;
+        border: none !important;
+        border-radius: 8px !important;
+        transition: all 0.3s ease;
+    }
+    .stButton>button:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.5) !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
 st.title("📈 FinSentiment")
 st.caption("Financial News Sentiment Analyzer · FinBERT (ProsusAI)")
 
@@ -50,7 +94,7 @@ news_text = st.text_area(
 
 col1, col2 = st.columns([1, 1])
 with col1:
-    ticker = st.text_input("Stock Ticker", value="AAPL").upper().strip()
+    ticker = st.text_input("Stock Ticker", value="").upper().strip()
 with col2:
     period = st.selectbox("Price Window", ["1mo", "3mo", "6mo", "1y"], index=0)
 
