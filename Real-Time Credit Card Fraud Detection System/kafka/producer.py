@@ -10,26 +10,25 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode("utf-8")
 )
 
-def generate_transaction():
-    # 10% chance of a fraudulent burst (high amount)
-    is_fraud = random.random() < 0.10
-    
-    if is_fraud:
-        amount = round(random.uniform(5000, 25000), 2)
-    else:
-        amount = round(random.uniform(10, 500), 2)
-        
-    return {
-        "transaction_id": random.randint(100000, 999999),
-        "card_id": random.randint(1000, 1020),
-        "amount": amount,
-        "timestamp": datetime.utcnow().isoformat()
-    }
-
 logger.info("Starting Credit Card Transaction Producer...")
 
 while True:
-    txn = generate_transaction()
+    print("\n--- Enter New Transaction ---")
+    try:
+        card_input = input("Card ID (default 1010): ")
+        card_id = int(card_input) if card_input.strip() else 1010
+        amount_input = input("Amount: ")
+        amount = float(amount_input)
+    except Exception:
+        print("Invalid input, please enter numeric values.")
+        continue
+
+    txn = {
+        "transaction_id": random.randint(100000, 999999),
+        "card_id": card_id,
+        "amount": amount,
+        "timestamp": datetime.utcnow().isoformat()
+    }
+    
     producer.send("credit_card_transactions", txn)
     logger.info(f"Sent: Transaction {txn['transaction_id']} | Card {txn['card_id']} | ${txn['amount']}")
-    time.sleep(0.5)  # Slightly faster frequency for a better real-time feel
