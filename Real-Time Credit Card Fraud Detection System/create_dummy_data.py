@@ -4,7 +4,11 @@ import pandas as pd
 os.makedirs("data", exist_ok=True)
 
 data = []
-for _ in range(5000):
+try:
+    num_records = int(input("Enter number of records to generate (e.g., 5000): "))
+except ValueError:
+    num_records = 5000
+for _ in range(num_records):
     is_fraud = random.random() < 0.1
     if is_fraud:
         amount = random.uniform(5000, 25000)
