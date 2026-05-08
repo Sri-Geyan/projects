@@ -7,16 +7,20 @@ _DATA_DIR = Path(__file__).parent.parent / "data"
 
 
 def load_news(path: Optional[str] = None) -> pd.DataFrame:
-    """Load financial news headlines. Defaults to data/news.csv relative to project root."""
-    fpath = Path(path) if path else _DATA_DIR / "news.csv"
+    """Load financial news headlines."""
+    if not path:
+        path = input("Enter path to news CSV (e.g., data/news.csv): ")
+    fpath = Path(path)
     df = pd.read_csv(fpath)
     df["date"] = pd.to_datetime(df["date"])
     return df
 
 
 def load_prices(path: Optional[str] = None) -> pd.DataFrame:
-    """Load OHLC stock prices. Defaults to data/prices.csv relative to project root."""
-    fpath = Path(path) if path else _DATA_DIR / "prices.csv"
+    """Load OHLC stock prices."""
+    if not path:
+        path = input("Enter path to prices CSV (e.g., data/prices.csv): ")
+    fpath = Path(path)
     df = pd.read_csv(fpath)
     df["Date"] = pd.to_datetime(df["Date"])
     return df
