@@ -16,7 +16,7 @@ I'm especially interested in how banks, fintechs, and trading systems solve prob
 - ⚡ **Streaming ML pipelines (Kafka + Spark)**
 - 📊 **Explainable, scalable financial models**
 
-**These are not toy projects** — they're designed to mirror **real-world financial systems**.
+**These are not toy projects** — they're designed to mirror **real-world financial systems**. Recently overhauled all applications to feature interactive **User-Driven Input Architectures** (replacing mocks) and unified them under a **Premium Brutalist Dark Theme** with glassmorphism aesthetics.
 
 ---
 
