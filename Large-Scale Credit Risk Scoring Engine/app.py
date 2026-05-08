@@ -12,6 +12,50 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Premium CSS Injection
+st.markdown("""
+<style>
+    .stApp { background: linear-gradient(135deg, #0A0F1A 0%, #111827 100%); }
+    [data-testid="stSidebar"] {
+        background: rgba(21, 26, 40, 0.6) !important;
+        backdrop-filter: blur(12px) !important;
+        border-right: 1px solid rgba(255,255,255,0.05);
+    }
+    .stMetric, .stDataFrame, div[data-testid="stForm"], div[data-testid="stExpander"] {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255,255,255,0.05) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .stMetric:hover, div[data-testid="stForm"]:hover, div[data-testid="stExpander"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 229, 255, 0.1);
+        border: 1px solid rgba(0, 229, 255, 0.3) !important;
+    }
+    h1, h2, h3 {
+        background: linear-gradient(90deg, #00E5FF, #0077FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800 !important;
+    }
+    .stButton>button {
+        background: linear-gradient(90deg, #00E5FF, #0077FF) !important;
+        color: #0A0F1A !important;
+        font-weight: bold !important;
+        border: none !important;
+        border-radius: 8px !important;
+        transition: all 0.3s ease;
+    }
+    .stButton>button:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.5) !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+
 st.title("⚡ Large-Scale Credit Risk Scoring Engine")
 st.markdown("""
 This application demonstrates an institutional-style credit risk scoring system. 
@@ -21,11 +65,10 @@ It uses **synthetic borrower data** to compute credit risk scores using **Logist
 st.sidebar.header("Configuration")
 engine_choice = st.sidebar.radio("Execution Engine", ["Pandas (Local)", "PySpark (Distributed)"])
 
-try:
-    N = int(st.sidebar.text_input("Number of Borrowers (N)", "1000"))
-except ValueError:
-    N = 1000
-    st.sidebar.error("Please enter a valid integer for N.")
+st.sidebar.header("Data Upload (CSV)")
+loan_file = st.sidebar.file_uploader("Upload Loan Data", type=["csv"])
+bureau_file = st.sidebar.file_uploader("Upload Bureau Data", type=["csv"])
+txn_file = st.sidebar.file_uploader("Upload Transaction Data", type=["csv"])
 
 run_button = st.sidebar.button("Run Pipeline ▶️", type="primary")
 
@@ -39,8 +82,24 @@ if run_button:
             with st.spinner("Initializing Spark..."):
                 spark = SparkSession.builder.master('local[*]').appName('RiskScoring').getOrCreate()
             
-            with st.spinner("Generating data via Spark..."):
-                loan_df, bureau_df, txn_df = generate_spark_data(spark, N)
+            if not (loan_file and bureau_file and txn_file):
+                st.error("Please upload all three CSV files for Spark processing.")
+                st.stop()
+            
+            with st.spinner("Loading user data into Spark..."):
+                import tempfile
+                import os
+                
+                # Write uploaded files to temp space so Spark can read them
+                temp_dir = tempfile.mkdtemp()
+                p1, p2, p3 = os.path.join(temp_dir, 'l.csv'), os.path.join(temp_dir, 'b.csv'), os.path.join(temp_dir, 't.csv')
+                with open(p1, 'wb') as f: f.write(loan_file.getvalue())
+                with open(p2, 'wb') as f: f.write(bureau_file.getvalue())
+                with open(p3, 'wb') as f: f.write(txn_file.getvalue())
+                
+                loan_df = spark.read.csv(p1, header=True, inferSchema=True)
+                bureau_df = spark.read.csv(p2, header=True, inferSchema=True)
+                txn_df = spark.read.csv(p3, header=True, inferSchema=True)
                 
             with st.spinner("Running Spark Pipeline..."):
                 pipeline = SparkRiskScoringPipeline(spark)
@@ -67,8 +126,14 @@ if run_button:
         
         start_time = time.time()
         
-        with st.spinner("Generating data via Pandas..."):
-            loan_df, bureau_df, txn_df = generate_pandas_data(N)
+        if not (loan_file and bureau_file and txn_file):
+            st.error("Please upload all three CSV files.")
+            st.stop()
+            
+        with st.spinner("Loading user data..."):
+            loan_df = pd.read_csv(loan_file)
+            bureau_df = pd.read_csv(bureau_file)
+            txn_df = pd.read_csv(txn_file)
             
         with st.spinner("Running Pandas Pipeline & 5-Fold CV..."):
             pipeline = PandasRiskScoringPipeline()
