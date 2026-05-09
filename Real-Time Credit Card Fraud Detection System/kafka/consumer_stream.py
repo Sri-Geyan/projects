@@ -22,8 +22,7 @@ except Exception as e:
 consumer = KafkaConsumer(
     "credit_card_transactions",
     bootstrap_servers="localhost:9092",
-    value_deserializer=lambda x: json.loads(x.decode("utf-8")),
-    consumer_timeout_ms=5000  # Added explicit timeout to not block indefinitely
+    value_deserializer=lambda x: json.loads(x.decode("utf-8"))
 )
 
 producer = KafkaProducer(
@@ -63,7 +62,10 @@ try:
         df = pd.DataFrame([feats])
         score = model.predict_proba(df)[0][1]
 
-        is_fraud = bool(score > FRAUD_THRESHOLD)
+        is_fraud = bool(score > FRAUD_THRESHOLD) or txn["amount"] >= 35000
+        if txn["amount"] >= 35000:
+            score = max(score, 0.99)
+            is_fraud = True
         
         alert = {
             **txn,
