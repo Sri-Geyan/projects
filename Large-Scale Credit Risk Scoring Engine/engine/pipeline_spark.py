@@ -24,8 +24,8 @@ class SparkRiskScoringPipeline:
     def feature_engineering(self, base_df):
         features_df = (
             base_df
-            .withColumn('dti_ratio', col('emi_outflow')*12/col('monthly_income'))
-            .withColumn('credit_utilization', col('used_credit')/col('total_credit'))
+            .withColumn('dti_ratio', col('emi_outflow')*12/(col('monthly_income') + 1e-6))
+            .withColumn('credit_utilization', col('used_credit')/(col('total_credit') + 1e-6))
             .withColumn('delinquency_flag', when(col('delinquency_count') > 0, 1).otherwise(0))
         )
         return features_df
